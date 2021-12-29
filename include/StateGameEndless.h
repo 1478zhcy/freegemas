@@ -24,7 +24,6 @@
  * 02110-1301, USA.
  */
 
-
 #ifndef _STATEGAMEENDLESS_H_
 #define _STATEGAMEENDLESS_H_
 
@@ -32,13 +31,12 @@
 
 using namespace std;
 
-class StateGameEndless : public StateGame{
+class StateGameEndless : public StateGame {
 
 public:
+  StateGameEndless(Game *p);
 
-    StateGameEndless(Game * p);
-
-    void update();
+  void update();
 };
 
 #endif /* _STATEGAMEENDLESS_H_ */

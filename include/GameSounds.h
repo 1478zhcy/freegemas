@@ -1,35 +1,32 @@
 #ifndef GAME_SOUNDS_H
 #define GAME_SOUNDS_H
 
-#include "go_sound.h"
 #include "OptionsManager.h"
+#include "go_sound.h"
 
-
-class GameSounds
-{
+class GameSounds {
 
 public:
-    /// Loads the sounds
-    void loadResources();
+  /// Loads the sounds
+  void loadResources();
 
-    void playSoundSelect();
-    void playSoundFall();
-    void playSoundMatch1();
-    void playSoundMatch2();
-    void playSoundMatch3();
+  void playSoundSelect();
+  void playSoundFall();
+  void playSoundMatch1();
+  void playSoundMatch2();
+  void playSoundMatch3();
 
 private:
+  /// @{
+  /// @name Sounds of the game
+  GoSDL::Sound mSfxMatch1, mSfxMatch2, mSfxMatch3;
+  GoSDL::Sound mSfxSelect;
+  GoSDL::Sound mSfxFall;
+  /// @}
 
-    /// @{
-    /// @name Sounds of the game
-    GoSDL::Sound mSfxMatch1, mSfxMatch2, mSfxMatch3;
-    GoSDL::Sound mSfxSelect;
-    GoSDL::Sound mSfxFall;
-    /// @}
+  bool soundsLoaded = false;
 
-    bool soundsLoaded = false;
-
-    OptionsManager options;
+  OptionsManager options;
 };
 
 #endif

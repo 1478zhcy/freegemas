@@ -1,11 +1,11 @@
 /**
  * @file resManager.h
- * 
+ *
  * @author José Tomás Tocino García
  * @date 2010
  *
  * Copyright (C) 2010 José Tomás Tocino García <theom3ga@gmail.com>
- * 
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; either version 2
@@ -21,7 +21,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  */
-
 
 #ifndef _RESMANAGER_H_
 #define _RESMANAGER_H_
@@ -57,61 +56,62 @@ using namespace std;
  * ResMgr -> method();
  * \endcode
  *
- * This class requires initialization to properly load the assets. Use the following line
- * as soon as your program starts from your main window class:
+ * This class requires initialization to properly load the assets. Use the
+ * following line as soon as your program starts from your main window class:
  *
  * \code
  * ResourceManager::instance() -> init(graphics());
  * \endcode
  *
- * @author José Tomás Tocino García <theom3ga@gmail.com> 
+ * @author José Tomás Tocino García <theom3ga@gmail.com>
  *
  */
 
-class ResourceManager{
+class ResourceManager {
 public:
+  /// Returns the instance of the resource manager.
+  static boost::shared_ptr<ResourceManager> instance();
 
-    /// Returns the instance of the resource manager.
-    static boost::shared_ptr<ResourceManager> instance();
+  static void delInstance();
 
-    static void delInstance();
+  /// Initializes the resource manager.
+  void init(Gosu::Graphics &g_);
 
-    /// Initializes the resource manager.
-    void init(Gosu::Graphics & g_);
+  /// Returns a shared_ptr to the requested image.
+  boost::shared_ptr<Gosu::Image> getImage(wstring path);
 
-    /// Returns a shared_ptr to the requested image.
-    boost::shared_ptr<Gosu::Image> getImage(wstring path);
+  /// Returns a shared_ptr to the requested font.
+  boost::shared_ptr<CustomFont> getFont(wstring path, int size);
 
-    /// Returns a shared_ptr to the requested font.
-    boost::shared_ptr<CustomFont> getFont(wstring path, int size);
+  /// Checks usage of resources and collects garbage, freeing unused resources.
+  void collectGarbage(wstring bypass = L"");
 
-    /// Checks usage of resources and collects garbage, freeing unused resources.
-    void collectGarbage(wstring bypass = L"");
+  ~ResourceManager();
 
-    ~ResourceManager();
 protected:
-
-    /// Protected constructor to avoid multi-instantiation
-    ResourceManager();
+  /// Protected constructor to avoid multi-instantiation
+  ResourceManager();
 
 private:
-    /// Map of loaded images
-    boost::unordered_map<wstring, boost::shared_ptr<Gosu::Image> > loadedImages;
+  /// Map of loaded images
+  boost::unordered_map<wstring, boost::shared_ptr<Gosu::Image>> loadedImages;
 
-    /// Map of loaded fonts
-    boost::unordered_map<wstring, boost::shared_ptr<CustomFont> > loadedFonts;
+  /// Map of loaded fonts
+  boost::unordered_map<wstring, boost::shared_ptr<CustomFont>> loadedFonts;
 
-    /// Iterator type definition for the map of images
-    typedef boost::unordered_map<wstring, boost::shared_ptr<Gosu::Image> >::iterator imgMapIterator;
+  /// Iterator type definition for the map of images
+  typedef boost::unordered_map<
+      wstring, boost::shared_ptr<Gosu::Image>>::iterator imgMapIterator;
 
-    /// Iterator type definition for the map of fonts
-    typedef boost::unordered_map<wstring, boost::shared_ptr<CustomFont> >::iterator fontMapIterator;
+  /// Iterator type definition for the map of fonts
+  typedef boost::unordered_map<wstring, boost::shared_ptr<CustomFont>>::iterator
+      fontMapIterator;
 
-    /// Pointer to graphics object
-    Gosu::Graphics * g;
+  /// Pointer to graphics object
+  Gosu::Graphics *g;
 
-    /// Instance of the class
-    static boost::shared_ptr<ResourceManager> pointerInstance;
+  /// Instance of the class
+  static boost::shared_ptr<ResourceManager> pointerInstance;
 };
 
 #endif /* _RESMANAGER_H_ */

@@ -22,14 +22,11 @@
  * 02110-1301, USA.
  */
 
-
 #ifndef _SCORETABLE_
 #define _SCORETABLE_
 
-
-#include "go_image.h"
 #include "OptionsManager.h"
-
+#include "go_image.h"
 
 class Game;
 
@@ -42,34 +39,32 @@ class Game;
  *
  */
 
-class ScoreTable{
+class ScoreTable {
 
 public:
+  /// Creates a new score table for the given amount of points
+  ScoreTable(Game *p, int, string);
 
-    /// Creates a new score table for the given amount of points
-    ScoreTable(Game * p, int, string);
-
-    /// Draws the score table at the given position
-    void draw(int x, int y, int z);
+  /// Draws the score table at the given position
+  void draw(int x, int y, int z);
 
 private:
+  /// Image for the rendered header
+  GoSDL::Image mRenderedHeader;
 
-    /// Image for the rendered header
-    GoSDL::Image mRenderedHeader;
+  /// Image for the rendered score
+  GoSDL::Image mRenderedScore;
 
-    /// Image for the rendered score
-    GoSDL::Image mRenderedScore;
+  /// Image for the last high score
+  GoSDL::Image mRenderedLastScore;
 
-    /// Image for the last high score
-    GoSDL::Image mRenderedLastScore;
+  /// Width of the score board
+  int scoreBoardWidth;
 
-    /// Width of the score board
-    int scoreBoardWidth;
+  /// Reference to the main game
+  Game *mGame;
 
-    /// Reference to the main game
-    Game * mGame;
-
-    OptionsManager options;
+  OptionsManager options;
 };
 
 #endif

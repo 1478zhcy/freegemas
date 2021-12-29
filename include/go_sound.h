@@ -5,19 +5,19 @@
 #include <string>
 
 namespace GoSDL {
-    class Sound {
+class Sound {
 
-    public:
-        ~Sound();
+public:
+  ~Sound();
 
-        void setSample(std::string path);
-        void unload();
-        void play(float vol = 1);
+  void setSample(std::string path);
+  void unload();
+  void play(float vol = 1);
 
-    private:
-        Mix_Chunk * mSample = nullptr;
-    };
+private:
+  Mix_Chunk *mSample = nullptr;
+};
 
-}
+} // namespace GoSDL
 
 #endif

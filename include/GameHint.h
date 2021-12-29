@@ -3,37 +3,35 @@
 
 #include "Coord.h"
 
-#include "go_window.h"
 #include "go_image.h"
+#include "go_window.h"
 
-class GameHint
-{
+class GameHint {
 public:
-    /// Sets the parent window and loads the resources
-    void setWindow (GoSDL::Window * w);
+  /// Sets the parent window and loads the resources
+  void setWindow(GoSDL::Window *w);
 
-    /// Places the hint at the specified position and shows it
-    void showHint(Coord location);
+  /// Places the hint at the specified position and shows it
+  void showHint(Coord location);
 
-    /// Draws the hint (if necessary)
-    void draw();
+  /// Draws the hint (if necessary)
+  void draw();
 
 private:
+  /// Total initial animation steps
+  int mAnimationCurrentStep = 0;
 
-    /// Total initial animation steps
-    int mAnimationCurrentStep = 0;
+  /// Steps for the hint animation
+  int mAnimationTotalSteps = 40;
 
-    /// Steps for the hint animation
-    int mAnimationTotalSteps = 40;
+  /// Hint flag
+  int mShowingHint = false;
 
-    /// Hint flag
-    int mShowingHint = false;
+  /// Coordinates for the hint
+  Coord mHintLocation;
 
-    /// Coordinates for the hint
-    Coord mHintLocation;
-
-    /// Image for the hint
-    GoSDL::Image mImgSelector;
+  /// Image for the hint
+  GoSDL::Image mImgSelector;
 };
 
 #endif

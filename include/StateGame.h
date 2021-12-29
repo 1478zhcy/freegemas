@@ -24,27 +24,25 @@
  * 02110-1301, USA.
  */
 
-
 #ifndef _STATEGAME_H_
 #define _STATEGAME_H_
 
-#include <utility>
 #include <memory>
 #include <set>
+#include <utility>
 using namespace std;
 
-#include "go_image.h"
 #include "go_font.h"
-#include "go_sound.h"
+#include "go_image.h"
 #include "go_music.h"
+#include "go_sound.h"
 
-#include "State.h"
-#include "Board.h"
 #include "BaseButton.h"
+#include "Board.h"
+#include "State.h"
 
-
-#include "GameIndicators.h"
 #include "GameBoard.h"
+#include "GameIndicators.h"
 
 class Game;
 
@@ -59,79 +57,69 @@ class Game;
  *
  */
 
-
-class StateGame : public State{
+class StateGame : public State {
 public:
+  /// Creates a new StateGame, initializing the loading screen
+  StateGame(Game *p);
+  ~StateGame();
 
-    /// Creates a new StateGame, initializing the loading screen
-    StateGame(Game * p);
-    ~StateGame();
+  virtual void update() = 0;
+  void draw();
 
-    virtual void update() = 0;
-    void draw();
+  void buttonDown(SDL_Keycode button);
 
-    void buttonDown(SDL_Keycode button);
+  void mouseButtonDown(Uint8 button);
+  void mouseButtonUp(Uint8 button);
 
-    void mouseButtonDown(Uint8 button);
-    void mouseButtonUp(Uint8 button);
+  void controllerButtonDown(Uint8 button);
 
-    void controllerButtonDown(Uint8 button);
-
-    int getScore();
+  int getScore();
 
 protected:
-    friend class GameIndicators;
-    friend class GameBoard;
+  friend class GameIndicators;
+  friend class GameBoard;
 
-    /// Loads the resources and intializes some variables
-    void loadResources();
+  /// Loads the resources and intializes some variables
+  void loadResources();
 
-    /// Resets the game
-    void resetGame();
+  /// Resets the game
+  void resetGame();
 
-    /// Resets the time
-    void resetTime();
+  /// Resets the time
+  void resetTime();
 
-    /// Different states of the game
-    enum tState
-    {
-        eInitial,
-        eStartLoading,
-        eSteady
-    };
+  /// Different states of the game
+  enum tState { eInitial, eStartLoading, eSteady };
 
-    /// Current state
-    tState mState;
+  /// Current state
+  tState mState;
 
-    void setState (tState);
+  void setState(tState);
 
-    /// Left side of UI
-    GameIndicators mGameIndicators;
+  /// Left side of UI
+  GameIndicators mGameIndicators;
 
-    /// Right side of the UI
-    GameBoard mGameBoard;
+  /// Right side of the UI
+  GameBoard mGameBoard;
 
-    /// Starting time
-    double mTimeStart;
+  /// Starting time
+  double mTimeStart;
 
 private:
+  // Increases the score by the given amount
+  void increaseScore(int amount);
 
-    // Increases the score by the given amount
-    void increaseScore (int amount);
+  /// Shows a hint for a possible match
+  void showHint();
 
-    /// Shows a hint for a possible match
-    void showHint();
+  /// Loading screen image
+  GoSDL::Image mImgLoadingBanner;
 
-    /// Loading screen image
-    GoSDL::Image mImgLoadingBanner;
+  // Background image
+  GoSDL::Image mImgBoard;
 
-    // Background image
-    GoSDL::Image mImgBoard;
-
-
-    /// Flag that indicates whether the user is clicking
-    bool mMousePressed;
-
+  /// Flag that indicates whether the user is clicking
+  bool mMousePressed;
 };
 
 #endif /* _STATEGAME_H_ */

@@ -2,38 +2,28 @@
 #include "Util.h"
 #include <cstdio>
 
-GoSDL::Music::~Music ()
-{
-    if (mSample)
-        Mix_FreeMusic(mSample);
+GoSDL::Music::~Music() {
+  if (mSample)
+    Mix_FreeMusic(mSample);
 }
 
-void GoSDL::Music::setSample (std::string path)
-{
-    std::string mPath = getBasePath() + path;
-    mSample = Mix_LoadMUS(mPath.c_str());
+void GoSDL::Music::setSample(std::string path) {
+  std::string mPath = getBasePath() + path;
+  mSample = Mix_LoadMUS(mPath.c_str());
 
-    if (!mSample)
-    {
-        printf("Mix_LoadMUS ERROR: %s\n", Mix_GetError());
-    }
+  if (!mSample) {
+    printf("Mix_LoadMUS ERROR: %s\n", Mix_GetError());
+  }
 }
 
-void GoSDL::Music::play (float vol)
-{
-    if (!mSample)
-        return;
+void GoSDL::Music::play(float vol) {
+  if (!mSample)
+    return;
 
-    Mix_VolumeMusic(128 * vol);
-    Mix_FadeInMusic(mSample, -1, 200);
+  Mix_VolumeMusic(128 * vol);
+  Mix_FadeInMusic(mSample, -1, 200);
 }
 
-void GoSDL::Music::stop()
-{
-    Mix_FadeOutMusic(200);
-}
+void GoSDL::Music::stop() { Mix_FadeOutMusic(200); }
 
-bool GoSDL::Music::isPlaying()
-{
-    return Mix_PlayingMusic();
-}
+bool GoSDL::Music::isPlaying() { return Mix_PlayingMusic(); }

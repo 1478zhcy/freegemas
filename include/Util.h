@@ -5,6 +5,6 @@
 
 std::string getBasePath();
 float getRandomFloat(float a, float b);
-int getRandomInt (int min, int max) ;
+int getRandomInt(int min, int max);
 
 #endif

@@ -1,12 +1,11 @@
 #ifndef _STATEOPTIONS_H_
 #define _STATEOPTIONS_H_
 
-#include "State.h"
 #include "OptionsManager.h"
+#include "State.h"
 
-#include "go_image.h"
 #include "go_font.h"
-
+#include "go_image.h"
 
 #include <vector>
 
@@ -27,71 +26,67 @@ class Game;
  *
  */
 
-
-class StateOptions : public State{
+class StateOptions : public State {
 public:
+  /// Creates a new StateOptions
+  StateOptions(Game *p);
 
-    /// Creates a new StateOptions
-    StateOptions(Game * p);
+  /// It controls the animations and the transitions
+  void update();
 
-    /// It controls the animations and the transitions
-    void update();
+  /// Draws the different elements
+  void draw();
 
-    /// Draws the different elements
-    void draw();
+  /**
+   * @brief It gets called whenever the user presses a button.
+   *
+   * The user can press Up, Down and Return to select the menu entries, as
+   * well as the mouse.
+   *
+   */
+  void buttonDown(SDL_Keycode B);
 
-    /**
-     * @brief It gets called whenever the user presses a button.
-     *
-     * The user can press Up, Down and Return to select the menu entries, as
-     * well as the mouse.
-     *
-     */
-    void buttonDown(SDL_Keycode B);
+  void mouseButtonDown(Uint8 button);
 
-    void mouseButtonDown(Uint8 button);
+  void controllerButtonDown(Uint8 button);
 
-    void controllerButtonDown(Uint8 button);
-
-    ~StateOptions();
+  ~StateOptions();
 
 private:
+  /// Image for the background
+  GoSDL::Image mImgBackground;
 
-    /// Image for the background
-    GoSDL::Image mImgBackground;
+  /// Image for the logo
+  GoSDL::Image mImgLogo;
 
-    /// Image for the logo
-    GoSDL::Image mImgLogo;
+  /// Image for the higlight of the menu entry
+  GoSDL::Image mImgHighl;
 
-    /// Image for the higlight of the menu entry
-    GoSDL::Image mImgHighl;
+  /// Font for the menu entries
+  GoSDL::Font mFont;
 
-    /// Font for the menu entries
-    GoSDL::Font mFont;
+  /// Current highlighted option
+  unsigned int mMenuSelectedOption;
 
-    /// Current highlighted option
-    unsigned int mMenuSelectedOption;
+  /// List of menu options.
+  vector<string> mMenuOptions;
+  vector<GoSDL::Image> mMenuRenderedTexts;
 
-    /// List of menu options.
-    vector<string> mMenuOptions;
-    vector<GoSDL::Image> mMenuRenderedTexts;
+  /// It gets executed when the user choses an option. It changes the state
+  ///  to the proper one.
+  void optionChosen();
 
-    /// It gets executed when the user choses an option. It changes the state
-    ///  to the proper one.
-    void optionChosen();
+  void moveUp();
+  void moveDown();
 
-    void moveUp();
-    void moveDown();
+  void updateButtonTexts();
 
-    void updateButtonTexts();
+  /// @{
+  /// @name Coordinates of the menu elements
+  int mMenuYStart, mMenuYEnd, mMenuYGap;
+  /// @}
 
-    /// @{
-    /// @name Coordinates of the menu elements
-    int mMenuYStart, mMenuYEnd, mMenuYGap;
-    /// @}
-
-    OptionsManager mOptions;
-
+  OptionsManager mOptions;
 };
 
 #endif /* _STATEOPTIONS_H_ */

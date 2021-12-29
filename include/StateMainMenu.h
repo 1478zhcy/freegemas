@@ -1,12 +1,11 @@
 #ifndef _STATEMAINMENU_H_
 #define _STATEMAINMENU_H_
 
-#include "State.h"
 #include "JewelGroupAnim.h"
+#include "State.h"
 
-#include "go_image.h"
 #include "go_font.h"
-
+#include "go_image.h"
 
 #include <vector>
 
@@ -27,87 +26,81 @@ class Game;
  *
  */
 
-
-class StateMainMenu : public State{
+class StateMainMenu : public State {
 public:
+  /// Creates a new StateMainMenu
+  StateMainMenu(Game *p);
 
-    /// Creates a new StateMainMenu
-    StateMainMenu(Game * p);
+  /// It controls the animations and the transitions
+  void update();
 
-    /// It controls the animations and the transitions
-    void update();
+  /// Draws the different elements
+  void draw();
 
-    /// Draws the different elements
-    void draw();
+  /**
+   * @brief It gets called whenever the user presses a button.
+   *
+   * The user can press Up, Down and Return to select the menu entries, as
+   * well as the mouse.
+   *
+   */
+  void buttonDown(SDL_Keycode B);
 
-    /**
-     * @brief It gets called whenever the user presses a button.
-     *
-     * The user can press Up, Down and Return to select the menu entries, as
-     * well as the mouse.
-     *
-     */
-    void buttonDown(SDL_Keycode B);
+  void mouseButtonDown(Uint8 button);
 
-    void mouseButtonDown(Uint8 button);
+  void controllerButtonDown(Uint8 button);
 
-    void controllerButtonDown(Uint8 button);
-
-    ~StateMainMenu();
+  ~StateMainMenu();
 
 private:
+  /// Possible states of the transition
+  enum transitionState { TransitionIn, Active, TransitionOut };
 
-    /// Possible states of the transition
-    enum transitionState{ TransitionIn,
-			  Active,
-			  TransitionOut };
+  /// Current transition state
+  transitionState mCurrentTransitionState;
 
-    /// Current transition state
-    transitionState mCurrentTransitionState;
+  /// Current step of the animation
+  int mAnimationCurrentStep;
 
-    /// Current step of the animation
-    int mAnimationCurrentStep;
+  /// Logo animation's total steps
+  int mAnimationLogoSteps;
 
-    /// Logo animation's total steps
-    int mAnimationLogoSteps;
+  /// General animation's total steps
+  int mAnimationTotalSteps;
 
-    /// General animation's total steps
-    int mAnimationTotalSteps;
+  /// Image for the background
+  GoSDL::Image mImgBackground;
 
-    /// Image for the background
-    GoSDL::Image mImgBackground;
+  /// Image for the logo
+  GoSDL::Image mImgLogo;
 
-    /// Image for the logo
-    GoSDL::Image mImgLogo;
+  /// Image for the higlight of the menu entry
+  GoSDL::Image mImgHighl;
 
-    /// Image for the higlight of the menu entry
-    GoSDL::Image mImgHighl;
+  /// Font for the menu entries
+  GoSDL::Font mFont;
 
-    /// Font for the menu entries
-    GoSDL::Font mFont;
+  /// Class for the animation of the decorating jewels
+  JewelGroupAnim mJewelAnimation;
 
-    /// Class for the animation of the decorating jewels
-    JewelGroupAnim mJewelAnimation;
+  /// Current highlighted option
+  unsigned int mMenuSelectedOption;
 
-    /// Current highlighted option
-    unsigned int mMenuSelectedOption;
+  /// List of menu options.
+  vector<string> mMenuTargets;
+  vector<GoSDL::Image> mMenuRenderedTexts;
 
-    /// List of menu options.
-    vector<string> mMenuTargets;
-    vector<GoSDL::Image> mMenuRenderedTexts;
+  /// It gets executed when the user choses an option. It changes the state
+  ///  to the proper one.
+  void optionChosen();
 
-    /// It gets executed when the user choses an option. It changes the state
-    ///  to the proper one.
-    void optionChosen();
+  void moveUp();
+  void moveDown();
 
-    void moveUp();
-    void moveDown();
-
-    /// @{
-    /// @name Coordinates of the menu elements
-    int mMenuYStart, mMenuYEnd, mMenuYGap;
-    /// @}
-
+  /// @{
+  /// @name Coordinates of the menu elements
+  int mMenuYStart, mMenuYEnd, mMenuYGap;
+  /// @}
 };
 
 #endif /* _STATEMAINMENU_H_ */

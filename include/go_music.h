@@ -5,21 +5,21 @@
 #include <string>
 
 namespace GoSDL {
-    class Music {
+class Music {
 
-    public:
-        ~Music();
+public:
+  ~Music();
 
-        void setSample(std::string path);
-        void play(float vol = 1);
-        void stop();
+  void setSample(std::string path);
+  void play(float vol = 1);
+  void stop();
 
-        bool isPlaying();
+  bool isPlaying();
 
-    private:
-        Mix_Music * mSample = nullptr;
-    };
+private:
+  Mix_Music *mSample = nullptr;
+};
 
-}
+} // namespace GoSDL
 
 #endif

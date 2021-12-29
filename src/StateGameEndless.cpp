@@ -1,30 +1,26 @@
 #include "StateGameEndless.h"
 
-StateGameEndless::StateGameEndless(Game * game) : StateGame(game) {
-}
+StateGameEndless::StateGameEndless(Game *game) : StateGame(game) {}
 
-void StateGameEndless::update()
-{
-    // On the eInitial state, don't do anything about logic
-    if (mState == eInitial)
-    {
-        return;
-    }
+void StateGameEndless::update() {
+  // On the eInitial state, don't do anything about logic
+  if (mState == eInitial) {
+    return;
+  }
 
-    // On this state, start loading the resources
-    else if (mState == eStartLoading)
-    {
-        loadResources();
-        setState(eSteady);
+  // On this state, start loading the resources
+  else if (mState == eStartLoading) {
+    loadResources();
+    setState(eSteady);
 
-        // Start the clock
-        resetTime();
+    // Start the clock
+    resetTime();
 
-        mGameIndicators.disableTime();
+    mGameIndicators.disableTime();
 
-        // Reset the scoreboard
-        mGameIndicators.setScore(0);
-    }
+    // Reset the scoreboard
+    mGameIndicators.setScore(0);
+  }
 
-    mGameBoard.update();
+  mGameBoard.update();
 }

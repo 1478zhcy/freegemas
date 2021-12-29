@@ -2,7 +2,16 @@
 #define SQUARE_H
 
 /// Different kinds of gems in a square.
-enum tSquare { sqEmpty, sqWhite, sqRed, sqPurple, sqOrange, sqGreen, sqYellow, sqBlue };
+enum tSquare {
+  sqEmpty,
+  sqWhite,
+  sqRed,
+  sqPurple,
+  sqOrange,
+  sqGreen,
+  sqYellow,
+  sqBlue
+};
 
 /**
  * @class Square
@@ -16,46 +25,33 @@ enum tSquare { sqEmpty, sqWhite, sqRed, sqPurple, sqOrange, sqGreen, sqYellow, s
  *
  */
 
+struct Square {
+  /// Kind of gem this square is holding
+  tSquare tipo;
 
-struct Square
-{
-    /// Kind of gem this square is holding
-    tSquare tipo;
+  /// Constructs a new square.
+  Square(const tSquare &t = sqEmpty) : origY(0), destY(0), mustFall(false) {
+    tipo = t;
+  }
 
-    /// Constructs a new square.
-    Square(const tSquare & t = sqEmpty)
-        : origY(0), destY(0), mustFall(false)
-    {
-        tipo = t;
-    }
+  bool operator==(const Square &C) { return C.tipo == tipo; }
 
-    bool operator==(const Square & C)
-    {
-        return C.tipo == tipo;
-    }
+  bool operator==(const tSquare &t) { return tipo == t; }
 
-    bool operator==(const tSquare & t)
-    {
-        return tipo == t;
-    }
+  operator tSquare() { return tipo; }
 
-    operator tSquare()
-    {
-        return tipo;
-    }
+  /// Initial position of the square
+  int origY;
 
-    /// Initial position of the square
-    int origY;
+  /** Vertical offset.
+   *
+   * This counts the number of positions this square has to fall
+   */
 
-    /** Vertical offset.
-     *
-     * This counts the number of positions this square has to fall
-     */
+  int destY;
 
-    int destY;
-
-    /// Indicates whether the square has to fall or not
-    bool mustFall;
+  /// Indicates whether the square has to fall or not
+  bool mustFall;
 };
 
 #endif

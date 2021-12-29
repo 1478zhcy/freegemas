@@ -11,26 +11,25 @@ class Game;
 
 class StateHowtoplay : public State {
 public:
+  StateHowtoplay(Game *p);
 
-    StateHowtoplay(Game * p);
+  void update();
+  void draw();
 
-    void update();
-    void draw();
+  void buttonDown(SDL_Keycode button);
+  void mouseButtonDown(Uint8 button);
 
-    void buttonDown (SDL_Keycode button);
-    void mouseButtonDown (Uint8 button);
+  void controllerButtonDown(Uint8 button);
 
-    void controllerButtonDown(Uint8 button);
-
-    ~StateHowtoplay();
+  ~StateHowtoplay();
 
 private:
-    GoSDL::Image mImgBackground;
+  GoSDL::Image mImgBackground;
 
-    GoSDL::Image mImgTitle;
-    GoSDL::Image mImgSubtitle;
+  GoSDL::Image mImgTitle;
+  GoSDL::Image mImgSubtitle;
 
-    GoSDL::Image mImgBodyText;
+  GoSDL::Image mImgBodyText;
 };
 
 #endif /* _STATEHOWTOPLAY_H_ */

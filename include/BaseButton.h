@@ -22,7 +22,6 @@
  * 02110-1301, USA.
  */
 
-
 #ifndef _BASEBUTTON_
 #define _BASEBUTTON_
 
@@ -30,8 +29,8 @@
 using namespace std;
 
 // #include "resManager.h"
-#include "log.h"
 #include "go_image.h"
+#include "log.h"
 
 /**
  * @class BaseButton
@@ -45,48 +44,47 @@ using namespace std;
  *
  */
 
-class BaseButton{
+class BaseButton {
 public:
+  BaseButton();
 
-    BaseButton();
+  void set(GoSDL::Window *parentWindow, std::string caption,
+           std::string iconPath);
+  void setText(std::string caption);
 
-    void set (GoSDL::Window * parentWindow, std::string caption, std::string iconPath);
-    void setText(std::string caption);
+  void draw(int x, int y, double z);
 
-    void draw(int x, int y, double z);
-
-    /**
-     * Checks if the button was pressed. It uses the last drawing position to
-     * check if the mouse was within boundaries.
-     *
-     * @param mX Horizontal mouse position
-     * @param mY Vertical mouse position
-     *
-     * @return true if the button was pressed
-     */
-    bool clicked(unsigned int mX, unsigned int mY);
+  /**
+   * Checks if the button was pressed. It uses the last drawing position to
+   * check if the mouse was within boundaries.
+   *
+   * @param mX Horizontal mouse position
+   * @param mY Vertical mouse position
+   *
+   * @return true if the button was pressed
+   */
+  bool clicked(unsigned int mX, unsigned int mY);
 
 private:
+  /// Parent window
+  GoSDL::Window *mParentWindow;
 
-    /// Parent window
-    GoSDL::Window * mParentWindow;
+  /// Image for the background of the button
+  GoSDL::Image mImgBackground;
 
-    /// Image for the background of the button
-    GoSDL::Image mImgBackground;
+  /// Image for the icon of the button, may be null.
+  GoSDL::Image mImgIcon;
 
-    /// Image for the icon of the button, may be null.
-    GoSDL::Image mImgIcon;
+  bool mHasIcon;
 
-    bool mHasIcon;
+  /// Font used for the button's label
+  GoSDL::Image mImgCaption;
 
-    /// Font used for the button's label
-    GoSDL::Image mImgCaption;
+  /// Position of the label within the button
+  int mTextHorizontalPosition;
 
-    /// Position of the label within the button
-    int mTextHorizontalPosition;
-
-    /// Last drawing position. It's used for the clicked method.
-    unsigned int mLastX, mLastY;
+  /// Last drawing position. It's used for the clicked method.
+  unsigned int mLastX, mLastY;
 };
 
 #endif

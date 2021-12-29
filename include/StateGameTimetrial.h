@@ -24,7 +24,6 @@
  * 02110-1301, USA.
  */
 
-
 #ifndef _STATEGAMETIMETRIAL_H_
 #define _STATEGAMETIMETRIAL_H_
 
@@ -32,13 +31,12 @@
 
 using namespace std;
 
-
-class StateGameTimetrial : public StateGame{
+class StateGameTimetrial : public StateGame {
 
 public:
-    StateGameTimetrial(Game * game);
+  StateGameTimetrial(Game *game);
 
-    void update();
+  void update();
 };
 
 #endif /* _STATEGAMETIMETRIAL_H_ */

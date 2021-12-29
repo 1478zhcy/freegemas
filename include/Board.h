@@ -4,10 +4,9 @@
 #include <array>
 using namespace std;
 
-#include "log.h"
-#include "Square.h"
 #include "MultipleMatch.h"
-
+#include "Square.h"
+#include "log.h"
 
 /**
  * @class Board
@@ -19,38 +18,39 @@ using namespace std;
  *
  */
 
-class Board{
+class Board {
 public:
-    Board();
+  Board();
 
-    /// Swaps squares x1,y1 and x2,y2
-    void swap(int x1, int y1, int x2, int y2);
+  /// Swaps squares x1,y1 and x2,y2
+  void swap(int x1, int y1, int x2, int y2);
 
-    /// Empties square (x,y)
-    void del(int x, int y);
+  /// Empties square (x,y)
+  void del(int x, int y);
 
-    /// Generates a random board.
-    void generate();
+  /// Generates a random board.
+  void generate();
 
-    /// Calculates squares' positions after deleting the matching gems, also filling the new spaces
-    void calcFallMovements();
+  /// Calculates squares' positions after deleting the matching gems, also
+  /// filling the new spaces
+  void calcFallMovements();
 
-    /// Places all the gems out of the screen
-    void dropAllGems();
+  /// Places all the gems out of the screen
+  void dropAllGems();
 
-    /// Checks if there are matching horizontal and/or vertical groups
-    MultipleMatch check();
+  /// Checks if there are matching horizontal and/or vertical groups
+  MultipleMatch check();
 
-    /// Checks if current Board.has any possible valid movement
-    vector<Coord> solutions();
+  /// Checks if current Board.has any possible valid movement
+  vector<Coord> solutions();
 
-    /// Resets squares' animations
-    void endAnimations();
+  /// Resets squares' animations
+  void endAnimations();
 
-    /// Matrix of squares
-    std::array< std::array<Square, 8>, 8> squares;
+  /// Matrix of squares
+  std::array<std::array<Square, 8>, 8> squares;
 
-    friend ostream& operator <<(ostream& out, Board & B);
+  friend ostream &operator<<(ostream &out, Board &B);
 };
 
 #endif

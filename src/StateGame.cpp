@@ -6,177 +6,154 @@
 #include <map>
 #include <string>
 
-StateGame::StateGame(Game * p) : State(p)
-{
-    lDEBUG << Log::CON("StateGame");
+StateGame::StateGame(Game *p) : State(p) {
+  lDEBUG << Log::CON("StateGame");
 
-    setState(eInitial);
+  setState(eInitial);
 
-    // Initialise game indicator
-    mGameIndicators.setGame(p, this);
+  // Initialise game indicator
+  mGameIndicators.setGame(p, this);
 
-    // Initialise game board
-    mGameBoard.setGame(p, this);
+  // Initialise game board
+  mGameBoard.setGame(p, this);
 
-    // Load the loading screen
-    GoSDL::Font tempLoadingFont;
-    tempLoadingFont.setAll(mGame, "media/fuenteMenu.ttf", 64);
+  // Load the loading screen
+  GoSDL::Font tempLoadingFont;
+  tempLoadingFont.setAll(mGame, "media/fuenteMenu.ttf", 64);
 
-    mImgLoadingBanner = tempLoadingFont.renderText(_("Loading..."), {255, 255, 255, 255});
+  mImgLoadingBanner =
+      tempLoadingFont.renderText(_("Loading..."), {255, 255, 255, 255});
 }
 
-StateGame::~StateGame ()
-{
-    lDEBUG << Log::DES("StateGame");
+StateGame::~StateGame() { lDEBUG << Log::DES("StateGame"); }
+
+void StateGame::draw() {
+  // On this state, show the loading screen and switch the state
+  if (mState == eInitial) {
+    mImgLoadingBanner.draw(280, 250, 2);
+    setState(eStartLoading);
+
+    return;
+  }
+
+  // In all the other states, the full window is drawn
+  mImgBoard.draw(0, 0, 0);
+
+  // Draw the indicators (buttons and labels)
+  mGameIndicators.draw();
+
+  // Draw the main game board
+  mGameBoard.draw();
 }
 
-void StateGame::draw()
-{
-    // On this state, show the loading screen and switch the state
-    if (mState == eInitial)
-    {
-        mImgLoadingBanner.draw(280, 250, 2);
-        setState(eStartLoading);
+void StateGame::buttonDown(SDL_Keycode button) {
+  if (button == SDLK_ESCAPE) {
+    mGame->changeState("stateMainMenu");
+  }
 
-        return;
-    }
+  else if (button == SDLK_h) {
+    showHint();
+  }
 
-    // In all the other states, the full window is drawn
-    mImgBoard.draw(0,0,0);
-
-    // Draw the indicators (buttons and labels)
-    mGameIndicators.draw();
-
-    // Draw the main game board
-    mGameBoard.draw();
+  else {
+    mGameBoard.buttonDown(button);
+  }
 }
 
-void StateGame::buttonDown(SDL_Keycode button)
-{
-    if (button == SDLK_ESCAPE)
-    {
-        mGame -> changeState("stateMainMenu");
-    }
-
-    else if (button == SDLK_h)
-    {
-        showHint();
-    }
-    
-    else {
-        mGameBoard.buttonDown(button);
-    }
+void StateGame::controllerButtonDown(Uint8 button) {
+  if (button == SDL_CONTROLLER_BUTTON_START) {
+    mGame->changeState("stateMainMenu");
+  } else if (button == SDL_CONTROLLER_BUTTON_BACK) {
+    resetGame();
+  } else {
+    mGameBoard.controllerButtonDown(button);
+  }
 }
 
-void StateGame::controllerButtonDown(Uint8 button)
-{
-    if (button == SDL_CONTROLLER_BUTTON_START) {
-        mGame -> changeState("stateMainMenu");
-    } else if (button == SDL_CONTROLLER_BUTTON_BACK) {
-        resetGame();
-    } else {
-        mGameBoard.controllerButtonDown(button);
-    }
+void StateGame::mouseButtonDown(Uint8 button) {
+  // Left mouse button was pressed
+  if (button == SDL_BUTTON_LEFT) {
+    mMousePressed = true;
+
+    // Get click location
+    int mouseX = mGame->getMouseX();
+    int mouseY = mGame->getMouseY();
+
+    // Inform the UI
+    mGameIndicators.click(mouseX, mouseY);
+
+    // Inform the board
+    mGameBoard.mouseButtonDown(mouseX, mouseY);
+  }
 }
 
-void StateGame::mouseButtonDown(Uint8 button)
-{
-    // Left mouse button was pressed
-    if (button == SDL_BUTTON_LEFT)
-    {
-        mMousePressed = true;
+void StateGame::mouseButtonUp(Uint8 button) {
+  // Left mouse button was released
+  if (button == SDL_BUTTON_LEFT) {
+    mMousePressed = false;
 
-        // Get click location
-        int mouseX = mGame->getMouseX();
-        int mouseY = mGame->getMouseY();
+    // Get click location
+    int mouseX = mGame->getMouseX();
+    int mouseY = mGame->getMouseY();
 
-        // Inform the UI
-        mGameIndicators.click(mouseX, mouseY);
-
-        // Inform the board
-        mGameBoard.mouseButtonDown(mouseX, mouseY);
-    }
+    // Inform the board
+    mGameBoard.mouseButtonUp(mouseX, mouseY);
+  }
 }
 
-void StateGame::mouseButtonUp(Uint8 button)
-{
-    // Left mouse button was released
-    if (button == SDL_BUTTON_LEFT)
-    {
-        mMousePressed = false;
+void StateGame::setState(tState state) {
+  // static std::map<tState, std::string> stateToString = {
+  //     { eInitial, "eInitial"},
+  //     { eStartLoading, "eStartLoading"},
+  //     { eLoading, "eLoading"},
+  //     { eLaunched, "eLaunched"},
+  //     { eNewGemsFalling, "eNewGemsFalling"},
+  //     { eOldGemsFalling, "eOldGemsFalling"},
+  //     { eWaiting, "eWaiting"},
+  //     { eGemSelected, "eGemSelected"},
+  //     { eGemsSwitching, "eGemsSwitching"},
+  //     { eGemsDisappearing, "eGemsDisappearing"},
+  //     { eFirstFlip, "eFirstFlip"},
+  //     { eInicialGemas, "eInicialGemas"},
+  //     { eEspera, "eEspera"},
+  //     { eGemaMarcada, "eGemaMarcada"},
+  //     { eGemasCambiando, "eGemasCambiando"},
+  //     { eGemasDesapareciendo, "eGemasDesapareciendo"},
+  //     { eGemasNuevasCayendo, "eGemasNuevasCayendo"},
+  //     { eDesapareceBoard, "eDesapareceBoard"},
+  //     { eTimeFinished, "eTimeFinished"},
+  //     { eShowingScoreTable, "eShowingScoreTable"}
+  // };
 
-        // Get click location
-        int mouseX = mGame->getMouseX();
-        int mouseY = mGame->getMouseY();
-
-        // Inform the board
-        mGameBoard.mouseButtonUp(mouseX, mouseY);
-    }
-}
-
-void StateGame::setState (tState state)
-{
-    // static std::map<tState, std::string> stateToString = {
-    //     { eInitial, "eInitial"},
-    //     { eStartLoading, "eStartLoading"},
-    //     { eLoading, "eLoading"},
-    //     { eLaunched, "eLaunched"},
-    //     { eNewGemsFalling, "eNewGemsFalling"},
-    //     { eOldGemsFalling, "eOldGemsFalling"},
-    //     { eWaiting, "eWaiting"},
-    //     { eGemSelected, "eGemSelected"},
-    //     { eGemsSwitching, "eGemsSwitching"},
-    //     { eGemsDisappearing, "eGemsDisappearing"},
-    //     { eFirstFlip, "eFirstFlip"},
-    //     { eInicialGemas, "eInicialGemas"},
-    //     { eEspera, "eEspera"},
-    //     { eGemaMarcada, "eGemaMarcada"},
-    //     { eGemasCambiando, "eGemasCambiando"},
-    //     { eGemasDesapareciendo, "eGemasDesapareciendo"},
-    //     { eGemasNuevasCayendo, "eGemasNuevasCayendo"},
-    //     { eDesapareceBoard, "eDesapareceBoard"},
-    //     { eTimeFinished, "eTimeFinished"},
-    //     { eShowingScoreTable, "eShowingScoreTable"}
-    // };
-
-    // lDEBUG << "New state: " << stateToString[state];
-    mState = state;
+  // lDEBUG << "New state: " << stateToString[state];
+  mState = state;
 }
 
 // ----------------------------------------------------------------------------
 
-void StateGame::loadResources()
-{
-    // Load the background image
-    mImgBoard.setWindowAndPath(mGame, "media/board.png");
+void StateGame::loadResources() {
+  // Load the background image
+  mImgBoard.setWindowAndPath(mGame, "media/board.png");
 
-    mGameIndicators.loadResources();
-    mGameBoard.loadResources();
+  mGameIndicators.loadResources();
+  mGameBoard.loadResources();
 }
 
-void StateGame::resetGame()
-{
-    mGameIndicators.setScore(0);
-    resetTime();
-    mGameBoard.resetGame();
+void StateGame::resetGame() {
+  mGameIndicators.setScore(0);
+  resetTime();
+  mGameBoard.resetGame();
 }
 
-void StateGame::resetTime()
-{
-    // Default time is 2 minutes
-    mTimeStart = SDL_GetTicks() + 2 * 60 * 1000;
+void StateGame::resetTime() {
+  // Default time is 2 minutes
+  mTimeStart = SDL_GetTicks() + 2 * 60 * 1000;
 }
 
-void StateGame::showHint()
-{
-    mGameBoard.showHint();
+void StateGame::showHint() { mGameBoard.showHint(); }
+
+void StateGame::increaseScore(int amount) {
+  mGameIndicators.increaseScore(amount);
 }
 
-void StateGame::increaseScore (int amount)
-{
-    mGameIndicators.increaseScore(amount);
-}
-
-int StateGame::getScore() {
-    return mGameIndicators.getScore();
-}
+int StateGame::getScore() { return mGameIndicators.getScore(); }

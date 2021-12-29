@@ -20,46 +20,42 @@
 #ifndef _DRAWINGQUEUE_H_
 #define _DRAWINGQUEUE_H_
 
-#include <map>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <map>
 
 #include "log.h"
 
 namespace GoSDL {
 
-    struct DrawingQueueOperation
-    {
-        SDL_Texture * mTexture;
-        SDL_Rect mDstRect;
-        double mAngle;
-        Uint8 mAlpha;
-        SDL_Color mColor;
-    };
+struct DrawingQueueOperation {
+  SDL_Texture *mTexture;
+  SDL_Rect mDstRect;
+  double mAngle;
+  Uint8 mAlpha;
+  SDL_Color mColor;
+};
 
+/**
+ * Represents a drawing queue, where the Drawable objects will be drawn
+ * depending on their depth (which is the key of the map).
+ */
 
-    /**
-     * Represents a drawing queue, where the Drawable objects will be drawn
-     * depending on their depth (which is the key of the map).
-     */
+class DrawingQueue : private std::multimap<float, DrawingQueueOperation> {
+public:
+  /// Adds a new drawable element to the drawing queue in the selected depth
+  void draw(float z, DrawingQueueOperation operation) {
+    insert(std::pair<float, DrawingQueueOperation>(z, operation));
+  }
 
-    class DrawingQueue : private std::multimap<float, DrawingQueueOperation>
-    {
-    public:
+private:
+  friend class Window;
+};
 
-        /// Adds a new drawable element to the drawing queue in the selected depth
-        void draw(float z, DrawingQueueOperation operation)
-        {
-            insert(std::pair<float, DrawingQueueOperation>(z, operation));
-        }
+// Iterator for the DrawingQueue
+typedef std::multimap<float, DrawingQueueOperation>::const_iterator
+    DrawingQueueIterator;
 
-    private:
-        friend class Window;
-    };
-
-    // Iterator for the DrawingQueue
-    typedef std::multimap<float, DrawingQueueOperation>::const_iterator DrawingQueueIterator;
-
-}
+} // namespace GoSDL
 
 #endif /* _DRAWINGQUEUE_H_ */

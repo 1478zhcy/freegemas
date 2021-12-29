@@ -29,75 +29,73 @@
 // ######################################################
 // Ecuaciones de tweening
 
-float Animacion::easeLinear(float t, float b, float c, float d){
-    return c * t / d + b;
+float Animacion::easeLinear(float t, float b, float c, float d) {
+  return c * t / d + b;
 }
 
-float Animacion::easeInQuad (float t, float b, float c, float d) {
-    t/=d;
-    return c*t*t + b;
+float Animacion::easeInQuad(float t, float b, float c, float d) {
+  t /= d;
+  return c * t * t + b;
 }
 
 float Animacion::easeOutQuad(float t, float b, float c, float d) {
-    t/=d;
-    return -c *(t)*(t-2) + b;
+  t /= d;
+  return -c * (t) * (t - 2) + b;
 }
 
 float Animacion::easeInOutQuad(float t, float b, float c, float d) {
-    t /= d/2;
-    if (t < 1){
-	return c/2*t*t + b;
-    }else{
-	--t;
-	return -c/2 * ((t)*(t-2) - 1) + b;
-    }
+  t /= d / 2;
+  if (t < 1) {
+    return c / 2 * t * t + b;
+  } else {
+    --t;
+    return -c / 2 * ((t) * (t - 2) - 1) + b;
+  }
 }
 
 float Animacion::easeInCubic(float t, float b, float c, float d) {
-    t/=d;
-    return c*(t)*t*t + b;
+  t /= d;
+  return c * (t)*t * t + b;
 }
 
 float Animacion::easeOutCubic(float t, float b, float c, float d) {
-    t=t/d-1;
-    return c*(t*t*t + 1) + b;
+  t = t / d - 1;
+  return c * (t * t * t + 1) + b;
 }
 
 float Animacion::easeInOutCubic(float t, float b, float c, float d) {
-    t/=d/2;
-    if ((t) < 1){
-	return c/2*t*t*t + b;
-    }else{
-	t-=2;
-	return c/2*((t)*t*t + 2) + b;
-    }
+  t /= d / 2;
+  if ((t) < 1) {
+    return c / 2 * t * t * t + b;
+  } else {
+    t -= 2;
+    return c / 2 * ((t)*t * t + 2) + b;
+  }
 }
 
-
 float Animacion::easeInQuart(float t, float b, float c, float d) {
-    t/=d;
-    return c*(t)*t*t*t + b;
+  t /= d;
+  return c * (t)*t * t * t + b;
 }
 
 float Animacion::easeOutQuart(float t, float b, float c, float d) {
-    t=t/d-1;
-    return -c * ((t)*t*t*t - 1) + b;
+  t = t / d - 1;
+  return -c * ((t)*t * t * t - 1) + b;
 }
 
 float Animacion::easeInOutQuart(float t, float b, float c, float d) {
-    t/=d/2;
-    if ((t) < 1){
-	return c/2*t*t*t*t + b;
-    }else{
-	t-=2;
-	return -c/2 * ((t)*t*t*t - 2) + b;
-    }
+  t /= d / 2;
+  if ((t) < 1) {
+    return c / 2 * t * t * t * t + b;
+  } else {
+    t -= 2;
+    return -c / 2 * ((t)*t * t * t - 2) + b;
+  }
 }
 
-float Animacion::easeOutBack(float t, float b, float c, float d){
-//    float s = 1.70158;
-    float s = 1.3;
-    t = t/d - 1;
-    return c*(t*t*((s+1)*t + s) + 1) + b;
+float Animacion::easeOutBack(float t, float b, float c, float d) {
+  //    float s = 1.70158;
+  float s = 1.3;
+  t = t / d - 1;
+  return c * (t * t * ((s + 1) * t + s) + 1) + b;
 }
-
