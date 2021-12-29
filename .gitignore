@@ -36,6 +36,7 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+cmake-build-*/
 
 # Roslyn cache directories
 *.ide/
@@ -93,6 +94,13 @@ ipch/
 *.psess
 *.vsp
 *.vspx
+
+# Clion profiler
+.idea/
+
+# Neovim profiler
+compile_commands.json
+neovim.json
 
 # TFS 2012 Local Workspace
 $tf/
